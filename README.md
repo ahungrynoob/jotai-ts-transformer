@@ -39,6 +39,11 @@ countAtom.debugLabel = 'countAtom'
 export default countAtom
 ```
 
+## Install
+```bash
+npm install jotai-label-ts-plugin --save-dev
+```
+
 ## Usage
 
 With a `webpack` configuration file:
@@ -80,7 +85,6 @@ module.exports = {
             ],
           }),
           compilerOptions: {
-            // set jsx pragma to jsx or alias which is from the @emotion/react package to enable css property in jsx component
             jsxFactory: 'jsx',
           },
         },
