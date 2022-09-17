@@ -1,0 +1,76 @@
+{
+  "name": "jotai-label-ts-plugin",
+  "version": "0.0.1",
+  "description": "TypeScript Jotai Debug Label Plugin",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "repository": "https://github.com/ahungrynoob/jotai-label-ts-plugin",
+  "author": "dxd_sjtu@outlook.com",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --outDir lib --diagnostics && tsc -p tsconfig.json -m esnext --outDir esm --diagnostics",
+    "dev": "tsc -p tsconfig.json --outDir lib --diagnostics -w",
+    "format": "prettier . --write",
+    "lint": "eslint . -c ./.eslintrc.yml",
+    "test": "jest --no-cache --ci",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
+  },
+  "devDependencies": {
+    "@swc-node/jest": "^1.4.3",
+    "@types/jest": "^27.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "7",
+    "jest": "^27.5.1",
+    "jest-specific-snapshot": "^5.0.0",
+    "lint-staged": "^12.3.7",
+    "npm-run-all": "^4.1.5",
+    "pinst": "^3.0.0",
+    "prettier": "^2.6.0",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "typescript": ">= 4.2"
+  },
+  "files": [
+    "lib/**",
+    "esm/**"
+  ],
+  "jest": {
+    "preset": "@swc-node/jest",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testRegex": "/tests/.*\\.spec\\.(j|t)sx?$",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "always"
+  },
+  "lint-staged": {
+    "*.@(js|ts|tsx)": [
+      "eslint -c .eslintrc.yml --fix"
+    ],
+    "*.@(js|ts|tsx|yml|yaml|md|json)": [
+      "prettier --write"
+    ]
+  }
+}
