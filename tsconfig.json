@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "importHelpers": false,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "declaration": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "dom.iterable", "es5", "es2015", "es2016"]
+  },
+  "exclude": ["node_modules", "lib"]
+}
