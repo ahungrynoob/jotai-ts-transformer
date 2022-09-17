@@ -75,8 +75,8 @@ module.exports = {
           transpileOnly: true,
           getCustomTransformers: () => ({
             before: [
-                // <------------------- here
-                jotaiLabelTransformer
+              // <------------------- here
+              jotaiLabelTransformer,
             ],
           }),
           compilerOptions: {
