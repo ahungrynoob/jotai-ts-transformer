@@ -13,23 +13,28 @@ export const jotaiLabelTransformer: ts.TransformerFactory<ts.SourceFile> = (
       filename = node.fileName
     }
 
-    if (
-      ts.isVariableDeclaration(node) &&
-      ts.isIdentifier(node.name) &&
-      ts.isCallExpression(node.initializer) &&
-      isAtom(node.initializer.expression)
-    ) {
-      const debugLabelStatement = context.factory.createExpressionStatement(
-        context.factory.createBinaryExpression(
-          context.factory.createPropertyAccessExpression(
-            context.factory.createIdentifier(node.name.getText()),
-            context.factory.createIdentifier('debugLabel'),
-          ),
-          context.factory.createToken(ts.SyntaxKind.EqualsToken),
-          context.factory.createStringLiteral(node.name.getText()),
-        ),
-      )
-      return [node, debugLabelStatement]
+    if (ts.isVariableStatement(node)) {
+      const debugLabelStatements = []
+      node.declarationList.declarations.forEach((innerNode) => {
+        if (
+          ts.isIdentifier(innerNode.name) &&
+          ts.isCallExpression(innerNode.initializer) &&
+          isAtom(innerNode.initializer.expression)
+        ) {
+          const debugLabelStatement = context.factory.createExpressionStatement(
+            context.factory.createBinaryExpression(
+              context.factory.createPropertyAccessExpression(
+                context.factory.createIdentifier(innerNode.name.getText()),
+                context.factory.createIdentifier('debugLabel'),
+              ),
+              context.factory.createToken(ts.SyntaxKind.EqualsToken),
+              context.factory.createStringLiteral(innerNode.name.getText()),
+            ),
+          )
+          debugLabelStatements.push(debugLabelStatement)
+        }
+      })
+      return [node, ...debugLabelStatements]
     }
 
     if (
