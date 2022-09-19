@@ -12,5 +12,6 @@
     "skipLibCheck": true,
     "lib": ["dom", "dom.iterable", "es5", "es2015", "es2016"]
   },
+  "include": ["src"],
   "exclude": ["node_modules", "lib"]
 }
