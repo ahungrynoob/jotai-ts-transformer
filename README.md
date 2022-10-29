@@ -53,7 +53,7 @@ const { join } = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const { jotaiLabelTransformer } = require('jotai-label-ts-plugin')
+const { createJotaiLabelTransformer } = require('jotai-label-ts-plugin')
 
 module.exports = {
   entry: './tests/fixtures/simple.tsx',
@@ -81,7 +81,10 @@ module.exports = {
           getCustomTransformers: () => ({
             before: [
               // <------------------- here
-              jotaiLabelTransformer,
+              createJotaiLabelTransformer({
+                // this can add debug label to your own custom atom
+                customAtomNames: ['myCustomAtom']
+              }),
             ],
           }),
           compilerOptions: {

@@ -1,15 +1,19 @@
 import * as ts from 'typescript'
 
-import { jotaiLabelTransformer } from '../src'
+import { createJotaiLabelTransformer } from '../src'
 
-const transform = (code: string, fileName?: string) =>
+const transform = (
+  code: string,
+  fileName?: string,
+  customAtomNames?: string[],
+) =>
   ts.transpileModule(code, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ESNext,
     },
     transformers: {
-      before: [jotaiLabelTransformer],
+      before: [createJotaiLabelTransformer({ customAtomNames })],
     },
     fileName,
   }).outputText
@@ -118,6 +122,18 @@ it('Should handle all atom types', () => {
     selectedValueAtom.debugLabel = \\"selectedValueAtom\\";
     const splittedAtom = splitAtom(atom([]));
     splittedAtom.debugLabel = \\"splittedAtom\\";
+    "
+  `)
+})
+
+it('Handles custom atom names a debugLabel to an atom', () => {
+  expect(
+    transform(`const mySpecialThing = myCustomAtom(0);`, undefined, [
+      'myCustomAtom',
+    ]),
+  ).toMatchInlineSnapshot(`
+    "const mySpecialThing = myCustomAtom(0);
+    mySpecialThing.debugLabel = \\"mySpecialThing\\";
     "
   `)
 })
