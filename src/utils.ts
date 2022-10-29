@@ -1,14 +1,22 @@
 import * as ts from 'typescript'
 
-export function isAtom(node: ts.Node) {
-  if (ts.isIdentifier(node) && atomFunctionNames.includes(node.getText())) {
+export interface PluginOptions {
+  customAtomNames?: string[]
+}
+
+export function isAtom(
+  node: ts.Node,
+  customAtomNames: PluginOptions['customAtomNames'] = [],
+) {
+  const atomNames = [...atomFunctionNames, ...customAtomNames]
+  if (ts.isIdentifier(node) && atomNames.includes(node.getText())) {
     return true
   }
 
   if (
     ts.isPropertyAccessExpression(node) &&
     ts.isIdentifier(node.name) &&
-    atomFunctionNames.includes(node.name.getText())
+    atomNames.includes(node.name.getText())
   ) {
     return true
   }
