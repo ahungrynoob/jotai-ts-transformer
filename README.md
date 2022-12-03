@@ -1,6 +1,6 @@
 # jotai-label-ts-plugin
 
-[![CI](https://github.com/ahungrynoob/jotai-label-ts-plugin/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ts-plugin/loadable-component/actions/workflows/ci.yml)
+[![CI](https://github.com/ahungrynoob/jotai-label-ts-plugin/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ahungrynoob/jotai-label-ts-plugin/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ahungrynoob/jotai-label-ts-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/ahungrynoob/jotai-label-ts-plugin)
 [![Downloads](https://img.shields.io/npm/dm/jotai-label-ts-plugin.svg?sanitize=true)](https://npmcharts.com/compare/jotai-label-ts-plugin?minimal=true)
 
