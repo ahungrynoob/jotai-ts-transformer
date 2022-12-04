@@ -9,14 +9,14 @@ export function isAtom(
   customAtomNames: PluginOptions['customAtomNames'] = [],
 ) {
   const atomNames = [...atomFunctionNames, ...customAtomNames]
-  if (ts.isIdentifier(node) && atomNames.includes(node.getText())) {
+  if (ts.isIdentifier(node) && atomNames.includes(node.text)) {
     return true
   }
 
   if (
     ts.isPropertyAccessExpression(node) &&
     ts.isIdentifier(node.name) &&
-    atomNames.includes(node.name.getText())
+    atomNames.includes(node.name.text)
   ) {
     return true
   }
