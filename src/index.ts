@@ -20,6 +20,7 @@ export const createJotaiLabelTransformer = (
         node.declarationList.declarations.forEach((innerNode) => {
           if (
             ts.isIdentifier(innerNode.name) &&
+            innerNode.initializer &&
             ts.isCallExpression(innerNode.initializer) &&
             isAtom(innerNode.initializer.expression, options?.customAtomNames)
           ) {
