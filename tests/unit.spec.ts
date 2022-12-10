@@ -1,22 +1,15 @@
-import * as ts from 'typescript'
-
 import { createJotaiLabelTransformer } from '../src'
+
+import { compile } from './compile'
 
 const transform = (
   code: string,
-  fileName?: string,
+  fileName = 'unknown.ts',
   customAtomNames?: string[],
 ) =>
-  ts.transpileModule(code, {
-    compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-      target: ts.ScriptTarget.ESNext,
-    },
-    transformers: {
-      before: [createJotaiLabelTransformer({ customAtomNames })],
-    },
-    fileName,
-  }).outputText
+  compile({ [fileName]: code }, (program) => ({
+    before: [createJotaiLabelTransformer(program, { customAtomNames })],
+  }))[fileName.replace('.ts', '.js')]
 
 it('Should add a debugLabel to an atom', () => {
   expect(transform(`const countAtom = atom(0);`)).toMatchInlineSnapshot(`
