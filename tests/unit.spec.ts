@@ -12,33 +12,59 @@ const transform = (
   }))[fileName.replace('.ts', '.js')]
 
 it('Should add a debugLabel to an atom', () => {
-  expect(transform(`const countAtom = atom(0);`)).toMatchInlineSnapshot(`
-    "const countAtom = atom(0);
+  expect(
+    transform(`
+  import {atom} from 'jotai';
+  const countAtom = atom(0);
+  `),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai';
+    const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     "
   `)
 })
 
 it('Should handle a atom from a default export', () => {
-  expect(transform(`const countAtom = jotai.atom(0);`)).toMatchInlineSnapshot(`
-    "const countAtom = jotai.atom(0);
+  expect(
+    transform(`
+  import jotai from 'jotai';
+  const countAtom = jotai.atom(0);
+  `),
+  ).toMatchInlineSnapshot(`
+    "import jotai from 'jotai';
+    const countAtom = jotai.atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     "
   `)
 })
 
 it('Should handle a atom being exported', () => {
-  expect(transform(`export const countAtom = atom(0);`)).toMatchInlineSnapshot(`
-    "export const countAtom = atom(0);
+  expect(
+    transform(`
+  import { atom } from 'jotai';
+  export const countAtom = atom(0);
+  `),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai';
+    export const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     "
   `)
 })
 
 it('Should handle a default exported atom', () => {
-  expect(transform(`export default atom(0);`, 'countAtom.ts'))
-    .toMatchInlineSnapshot(`
-    "const countAtom = atom(0);
+  expect(
+    transform(
+      `
+  import { atom } from 'jotai';
+  export default atom(0);
+  `,
+      'countAtom.ts',
+    ),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai';
+    const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     export default countAtom;
     "
@@ -46,9 +72,16 @@ it('Should handle a default exported atom', () => {
 })
 
 it('Should handle a default exported atom in a barrel file', () => {
-  expect(transform(`export default atom(0);`, 'atoms/index.ts'))
-    .toMatchInlineSnapshot(`
-    "const atoms = atom(0);
+  expect(
+    transform(
+      `
+  import { atom } from 'jotai';
+  export default atom(0);`,
+      'atoms/index.ts',
+    ),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai';
+    const atoms = atom(0);
     atoms.debugLabel = \\"atoms\\";
     export default atoms;
     "
@@ -59,13 +92,15 @@ it('Should handle all types of exports', () => {
   expect(
     transform(
       `
+      import { atom } from 'jotai';
       export const countAtom = atom(0);
       export default atom(0);
     `,
       'atoms/index.ts',
     ),
   ).toMatchInlineSnapshot(`
-    "export const countAtom = atom(0);
+    "import { atom } from 'jotai';
+    export const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     const atoms = atom(0);
     atoms.debugLabel = \\"atoms\\";
@@ -78,6 +113,7 @@ it('Should handle all atom types', () => {
   expect(
     transform(
       `
+      import {atom, atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom} from 'jotai';
       export const countAtom = atom(0);
       const myFamily = atomFamily((param) => atom(param));
       const countAtomWithDefault = atomWithDefault((get) => get(countAtom) * 2);
@@ -93,7 +129,8 @@ it('Should handle all atom types', () => {
       'atoms/index.ts',
     ),
   ).toMatchInlineSnapshot(`
-    "export const countAtom = atom(0);
+    "import { atom, atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom } from 'jotai';
+    export const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     const myFamily = atomFamily((param) => atom(param));
     myFamily.debugLabel = \\"myFamily\\";
@@ -127,6 +164,20 @@ it('Handles custom atom names a debugLabel to an atom', () => {
   ).toMatchInlineSnapshot(`
     "const mySpecialThing = myCustomAtom(0);
     mySpecialThing.debugLabel = \\"mySpecialThing\\";
+    "
+  `)
+})
+
+it('Should not handles atom names if not imported from jotai', () => {
+  expect(
+    transform(`
+  import {atom} from 'jotai';
+  import loadable from '@loadable/component';
+  const countAtom = loadable(atom(0));`),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai';
+    import loadable from '@loadable/component';
+    const countAtom = loadable(atom(0));
     "
   `)
 })
