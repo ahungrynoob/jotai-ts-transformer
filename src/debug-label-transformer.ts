@@ -9,6 +9,7 @@ export const createDebugLabelTransformer = (
   program: ts.Program,
   options?: PluginOptions,
 ): ts.TransformerFactory<ts.SourceFile> => {
+  const typeChecker = program.getTypeChecker()
   return (context) => {
     let filename = 'unknown'
     const visitor: ts.Visitor = (node) => {
@@ -23,7 +24,11 @@ export const createDebugLabelTransformer = (
             ts.isIdentifier(innerNode.name) &&
             innerNode.initializer &&
             ts.isCallExpression(innerNode.initializer) &&
-            isAtom(innerNode.initializer.expression, options?.customAtomNames)
+            isAtom(
+              typeChecker,
+              innerNode.initializer.expression,
+              options?.customAtomNames,
+            )
           ) {
             const debugLabelStatement =
               context.factory.createExpressionStatement(
@@ -45,7 +50,11 @@ export const createDebugLabelTransformer = (
       if (
         ts.isExportAssignment(node) &&
         ts.isCallExpression(node.expression) &&
-        isAtom(node.expression.expression, options?.customAtomNames)
+        isAtom(
+          typeChecker,
+          node.expression.expression,
+          options?.customAtomNames,
+        )
       ) {
         let displayName = path.basename(filename, path.extname(filename))
         // ./{module name}/index.js

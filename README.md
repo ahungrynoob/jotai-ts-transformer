@@ -78,10 +78,10 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           transpileOnly: true,
-          getCustomTransformers: () => ({
+          getCustomTransformers: (program) => ({
             before: [
               // <------------------- here
-              createDebugLabelTransformer({
+              createDebugLabelTransformer(program, {
                 // this can add debug label to your own custom atom
                 customAtomNames: ['myCustomAtom']
               }),
