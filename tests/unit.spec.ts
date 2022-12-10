@@ -1,4 +1,4 @@
-import { createJotaiLabelTransformer } from '../src'
+import { createDebugLabelTransformer } from '../src'
 
 import { compile } from './compile'
 
@@ -8,7 +8,7 @@ const transform = (
   customAtomNames?: string[],
 ) =>
   compile({ [fileName]: code }, (program) => ({
-    before: [createJotaiLabelTransformer(program, { customAtomNames })],
+    before: [createDebugLabelTransformer(program, { customAtomNames })],
   }))[fileName.replace('.ts', '.js')]
 
 it('Should add a debugLabel to an atom', () => {
