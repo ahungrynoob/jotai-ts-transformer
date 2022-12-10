@@ -6,6 +6,7 @@ import { isAtom } from './utils'
 import type { PluginOptions } from './utils'
 
 export const createJotaiLabelTransformer = (
+  program: ts.Program,
   options?: PluginOptions,
 ): ts.TransformerFactory<ts.SourceFile> => {
   return (context) => {
