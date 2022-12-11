@@ -7,10 +7,7 @@ export interface PluginOptions {
 }
 
 function isJotaiModule(moduleSpecifier: string) {
-  return (
-    moduleSpecifier === `'${JOTAI_LIB_NAME}'` ||
-    moduleSpecifier === `"${JOTAI_LIB_NAME}"`
-  )
+  return moduleSpecifier === JOTAI_LIB_NAME
 }
 
 export function isAtom(
@@ -27,7 +24,10 @@ export function isAtom(
       relatedSymbol &&
       ts.isImportSpecifier(relatedSymbol.declarations?.[0]) &&
       isJotaiModule(
-        relatedSymbol.declarations?.[0].parent.parent.parent.moduleSpecifier.getText(),
+        (
+          relatedSymbol.declarations?.[0].parent.parent.parent
+            .moduleSpecifier as ts.StringLiteral
+        ).text,
       )
     ) {
       return true
@@ -46,7 +46,10 @@ export function isAtom(
       relatedSymbol &&
       ts.isImportClause(relatedSymbol.declarations?.[0]) &&
       isJotaiModule(
-        relatedSymbol.declarations?.[0].parent.moduleSpecifier.getText(),
+        (
+          relatedSymbol.declarations?.[0].parent
+            .moduleSpecifier as ts.StringLiteral
+        ).text,
       )
     ) {
       return true

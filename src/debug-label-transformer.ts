@@ -34,11 +34,11 @@ export const createDebugLabelTransformer = (
               context.factory.createExpressionStatement(
                 context.factory.createBinaryExpression(
                   context.factory.createPropertyAccessExpression(
-                    context.factory.createIdentifier(innerNode.name.getText()),
+                    context.factory.createIdentifier(innerNode.name.text),
                     context.factory.createIdentifier('debugLabel'),
                   ),
                   context.factory.createToken(ts.SyntaxKind.EqualsToken),
-                  context.factory.createStringLiteral(innerNode.name.getText()),
+                  context.factory.createStringLiteral(innerNode.name.text),
                 ),
               )
             debugLabelStatements.push(debugLabelStatement)
