@@ -7,7 +7,10 @@ export interface PluginOptions {
 }
 
 function isJotaiModule(moduleSpecifier: string) {
-  return moduleSpecifier === JOTAI_LIB_NAME
+  return (
+    moduleSpecifier === JOTAI_LIB_NAME ||
+    moduleSpecifier === `${JOTAI_LIB_NAME}/utils`
+  )
 }
 
 export function isAtom(

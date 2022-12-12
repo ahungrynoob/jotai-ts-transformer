@@ -113,7 +113,8 @@ it('Should handle all atom types', () => {
   expect(
     transform(
       `
-      import {atom, atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom} from 'jotai';
+      import {atom} from 'jotai';
+      import {atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom} from 'jotai/utils';
       export const countAtom = atom(0);
       const myFamily = atomFamily((param) => atom(param));
       const countAtomWithDefault = atomWithDefault((get) => get(countAtom) * 2);
@@ -129,7 +130,8 @@ it('Should handle all atom types', () => {
       'atoms/index.ts',
     ),
   ).toMatchInlineSnapshot(`
-    "import { atom, atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom } from 'jotai';
+    "import { atom } from 'jotai';
+    import { atomFamily, atomWithDefault, atomWithObservable, atomWithReducer, atomWithReset, atomWithStorage, freezeAtom, loadable, selectAtom, splitAtom } from 'jotai/utils';
     export const countAtom = atom(0);
     countAtom.debugLabel = \\"countAtom\\";
     const myFamily = atomFamily((param) => atom(param));
