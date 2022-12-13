@@ -11,6 +11,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json --outDir lib --diagnostics && tsc -p tsconfig.json -m esnext --outDir esm --diagnostics",
     "dev": "tsc -p tsconfig.json --outDir lib --diagnostics -w",
+    "start": "rm -rf dist && NODE_ENV=production webpack",
     "format": "prettier . --write",
     "lint": "eslint . -c ./.eslintrc.yml",
     "test": "jest --no-cache --ci",
@@ -19,6 +20,7 @@
     "postpublish": "pinst --enable"
   },
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@swc-node/jest": "^1.4.3",
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
@@ -30,11 +32,18 @@
     "husky": "7",
     "jest": "^27.5.1",
     "jest-specific-snapshot": "^5.0.0",
+    "jotai": "^1.11.2",
     "lint-staged": "^12.3.7",
     "npm-run-all": "^4.1.5",
     "pinst": "^3.0.0",
     "prettier": "^2.6.0",
-    "typescript": "^4.6.2"
+    "react": "^18.2.0",
+    "react-refresh": "^0.14.0",
+    "react-refresh-typescript": "^2.0.7",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.6.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {},
   "peerDependencies": {
