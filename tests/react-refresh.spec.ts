@@ -12,8 +12,15 @@ const transform = (
   }))[fileName.replace('.ts', '.js')]
 
 it('Should add a cache for a single atom', () => {
-  expect(transform(`const countAtom = atom(0);`, '/src/atoms/index.ts'))
-    .toMatchInlineSnapshot(`
+  expect(
+    transform(
+      `
+  import {atom} from 'jotai';
+  const countAtom = atom(0);
+  `,
+      '/src/atoms/index.ts',
+    ),
+  ).toMatchInlineSnapshot(`
     "globalThis.jotaiAtomCache = globalThis.jotaiAtomCache || {
         cache: new Map(),
         get(name, inst) {
@@ -24,6 +31,7 @@ it('Should add a cache for a single atom', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     const countAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/countAtom\\", atom(0));
     "
   `)
@@ -33,6 +41,7 @@ it('Should add a cache for multiple atoms', () => {
   expect(
     transform(
       `
+  import {atom} from 'jotai';
   const countAtom = atom(0);
   const doubleAtom = atom((get) => get(countAtom) * 2);
   `,
@@ -49,6 +58,7 @@ it('Should add a cache for multiple atoms', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     const countAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/countAtom\\", atom(0));
     const doubleAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/doubleAtom\\", atom((get) => get(countAtom) * 2));
     "
@@ -59,6 +69,7 @@ it('Should add a cache for multiple exported atoms', () => {
   expect(
     transform(
       `
+  import {atom} from 'jotai';
   export const countAtom = atom(0);
   export const doubleAtom = atom((get) => get(countAtom) * 2);
   `,
@@ -75,6 +86,7 @@ it('Should add a cache for multiple exported atoms', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     export const countAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/countAtom\\", atom(0));
     export const doubleAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/doubleAtom\\", atom((get) => get(countAtom) * 2));
     "
@@ -82,8 +94,14 @@ it('Should add a cache for multiple exported atoms', () => {
 })
 
 it('Should add a cache for a default exported atom', () => {
-  expect(transform(`export default atom(0);`, '/src/atoms/index.ts'))
-    .toMatchInlineSnapshot(`
+  expect(
+    transform(
+      `
+  import {atom} from 'jotai';
+  export default atom(0);`,
+      '/src/atoms/index.ts',
+    ),
+  ).toMatchInlineSnapshot(`
     "globalThis.jotaiAtomCache = globalThis.jotaiAtomCache || {
         cache: new Map(),
         get(name, inst) {
@@ -94,6 +112,7 @@ it('Should add a cache for a default exported atom', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     export default globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/defaultExport\\", atom(0));
     "
   `)
@@ -103,6 +122,7 @@ it('Should add a cache for mixed exports of atoms', () => {
   expect(
     transform(
       `
+  import {atom} from 'jotai';
   export const countAtom = atom(0);
   export default atom((get) => get(countAtom) * 2);
   `,
@@ -119,6 +139,7 @@ it('Should add a cache for mixed exports of atoms', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     export const countAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/countAtom\\", atom(0));
     export default globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/defaultExport\\", atom((get) => get(countAtom) * 2));
     "
@@ -128,7 +149,9 @@ it('Should add a cache for mixed exports of atoms', () => {
 it('Should handle atoms returned from functions', () => {
   expect(
     transform(
-      `function createAtom(label) {
+      `
+      import {atom} from 'jotai';
+      function createAtom(label) {
         const anAtom = atom(0);
         anAtom.debugLabel = label;
         return anAtom;
@@ -150,6 +173,7 @@ it('Should handle atoms returned from functions', () => {
             return inst;
         }
     };
+    import { atom } from 'jotai';
     function createAtom(label) {
         const anAtom = atom(0);
         anAtom.debugLabel = label;
