@@ -41,13 +41,13 @@
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
     "ts-loader": "^9.4.2",
-    "typescript": "^4.8.3",
+    "typescript": "4.7.4",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {},
   "peerDependencies": {
-    "typescript": ">= 4.8.3"
+    "typescript": ">= 4.7.4"
   },
   "files": [
     "lib/**",
