@@ -31,11 +31,13 @@ const globalAtomCacheExpressionStatement = factory.createExpressionStatement(
           factory.createMethodDeclaration(
             undefined,
             undefined,
+            undefined,
             factory.createIdentifier('get'),
             undefined,
             undefined,
             [
               factory.createParameterDeclaration(
+                undefined,
                 undefined,
                 undefined,
                 factory.createIdentifier('name'),
@@ -44,6 +46,7 @@ const globalAtomCacheExpressionStatement = factory.createExpressionStatement(
                 undefined,
               ),
               factory.createParameterDeclaration(
+                undefined,
                 undefined,
                 undefined,
                 factory.createIdentifier('inst'),
@@ -183,6 +186,7 @@ function visitSourceFile(
 
       return factory.updateExportAssignment(
         node,
+        node.decorators,
         node.modifiers,
         factory.createCallExpression(
           factory.createPropertyAccessExpression(

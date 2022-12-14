@@ -91,6 +91,7 @@ export const createDebugLabelTransformer = (
         const exportStatement = context.factory.createExportAssignment(
           undefined,
           undefined,
+          undefined,
           context.factory.createIdentifier(displayName),
         )
 
