@@ -47,6 +47,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
+    "jotai": "1.x",
     "typescript": ">= 4.7.4"
   },
   "files": [
