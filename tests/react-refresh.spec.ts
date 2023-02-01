@@ -41,7 +41,7 @@ it('Should add a cache for multiple atoms', () => {
   expect(
     transform(
       `
-  import {atom} from 'jotai';
+  import {atom} from 'jotai/vanilla';
   const countAtom = atom(0);
   const doubleAtom = atom((get) => get(countAtom) * 2);
   `,
@@ -58,7 +58,7 @@ it('Should add a cache for multiple atoms', () => {
             return inst;
         }
     };
-    import { atom } from 'jotai';
+    import { atom } from 'jotai/vanilla';
     const countAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/countAtom\\", atom(0));
     const doubleAtom = globalThis.jotaiAtomCache.get(\\"/src/atoms/index.ts/doubleAtom\\", atom((get) => get(countAtom) * 2));
     "

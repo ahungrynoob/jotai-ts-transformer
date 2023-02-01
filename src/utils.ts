@@ -1,6 +1,7 @@
 import * as ts from 'typescript'
 
 const JOTAI_LIB_NAME = 'jotai'
+const JOTAI_VANILLA_NAME = 'jotai/vanilla'
 
 export interface PluginOptions {
   customAtomNames?: string[]
@@ -9,7 +10,9 @@ export interface PluginOptions {
 function isJotaiModule(moduleSpecifier: string) {
   return (
     moduleSpecifier === JOTAI_LIB_NAME ||
-    moduleSpecifier === `${JOTAI_LIB_NAME}/utils`
+    moduleSpecifier === JOTAI_VANILLA_NAME ||
+    moduleSpecifier === `${JOTAI_LIB_NAME}/utils` ||
+    moduleSpecifier === `${JOTAI_VANILLA_NAME}/utils`
   )
 }
 
