@@ -170,7 +170,21 @@ it('Handles custom atom names a debugLabel to an atom', () => {
   `)
 })
 
-it('Should not handles atom names if not imported from jotai', () => {
+it('Should handle atom names if imported from jotai/vanilla', () => {
+  expect(
+    transform(`
+  import {atom} from 'jotai/vanilla';
+  const countAtom = atom(0);
+  `),
+  ).toMatchInlineSnapshot(`
+    "import { atom } from 'jotai/vanilla';
+    const countAtom = atom(0);
+    countAtom.debugLabel = \\"countAtom\\";
+    "
+  `)
+})
+
+it('Should not handle atom names if not imported from jotai', () => {
   expect(
     transform(`
   import {atom} from 'jotai';
