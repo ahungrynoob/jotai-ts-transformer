@@ -49,12 +49,18 @@ module.exports = {
             before: [
               // <------------------- here
               createDebugLabelTransformer(program, {
-                // This can add debug label to your own custom atom
-                customAtomNames: ['myCustomAtom']
+                // This can add debug label to your own custom atom function imported from custom library
+                customAtomNames: [{
+                  functionNames: ['myCustomAtom'],
+                  library: 'jotai-my-custom-lib'
+                }]
               }),
               createReactRefreshTransformer(program, {
                 // This plugin adds support for React Refresh for Jotai atoms. This makes sure that state isn't reset, when developing using React Refresh.
-                customAtomNames: ['myCustomAtom']
+                customAtomNames: [{
+                  functionNames: ['myCustomAtom'],
+                  library: 'jotai-my-custom-lib'
+                }]
               })
             ],
           }),
@@ -77,4 +83,77 @@ module.exports = {
     }),
   ],
 }
+```
+
+This package has already included all the third party jotai libs recommended by jotai official. Here they are:
+```typescript
+const builtInAtomFunctionNames = [
+  // Core
+  {
+    functionNames: [
+      'atom',
+      'atomFamily',
+      'atomWithDefault',
+      'atomWithObservable',
+      'atomWithReducer',
+      'atomWithReset',
+      'atomWithStorage',
+      'freezeAtom',
+      'loadable',
+      'selectAtom',
+      'splitAtom',
+      'unstable_unwrap',
+    ],
+    library: [
+      JOTAI_LIB_NAME,
+      JOTAI_VANILLA_NAME,
+      `${JOTAI_LIB_NAME}/utils`,
+      `${JOTAI_VANILLA_NAME}/utils`,
+    ],
+  },
+  {
+    functionNames: ['atomWithMachine'],
+    library: 'jotai-xstate',
+  },
+  {
+    functionNames: ['atomWithImmer'],
+    library: 'jotai-immer',
+  },
+  {
+    functionNames: ['atomWithProxy'],
+    library: 'jotai-valtio',
+  },
+  {
+    functionNames: ['atomWithRecoilValue'],
+    library: 'jotai-recoil',
+  },
+  {
+    functionNames: ['atomWithCache'],
+    library: 'jotai-cache',
+  },
+  {
+    functionNames: ['validateAtoms', 'atomWithValidate'],
+    library: 'jotai-form',
+  },
+  {
+    functionNames: ['focusAtom'],
+    library: 'jotai-optics',
+  },
+  {
+    functionNames: ['atomWithHash', 'atomWithLocation'],
+    library: 'jotai-location',
+  },
+  {
+    functionNames: ['atomWithStore'],
+    library: ['jotai-redux', 'jotai-zustand'],
+  },
+  {
+    functionNames: ['atomWithQuery'],
+  },
+  {
+    functionNames: ['atomWithMutation', 'atomWithSubscription'],
+    library: ['jotai-trpc', 'jotai-relay'],
+  },
+]
+
 ```
