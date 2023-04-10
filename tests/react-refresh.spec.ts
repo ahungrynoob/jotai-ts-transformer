@@ -1,11 +1,11 @@
-import { createReactRefreshTransformer } from '../src'
+import { createReactRefreshTransformer, AtomFunctionName } from '../src'
 
 import { compile } from './compile'
 
 const transform = (
   code: string,
   fileName = 'unknown.ts',
-  customAtomNames?: string[],
+  customAtomNames?: AtomFunctionName[],
 ) =>
   compile({ [fileName]: code }, (program) => ({
     before: [createReactRefreshTransformer(program, { customAtomNames })],
@@ -191,7 +191,7 @@ it('Should handle custom atom names', () => {
     transform(
       `const mySpecialThing = myCustomAtom(0);`,
       '/src/atoms/index.ts',
-      ['myCustomAtom'],
+      [{ functionNames: ['myCustomAtom'] }],
     ),
   ).toMatchInlineSnapshot(`
     "globalThis.jotaiAtomCache = globalThis.jotaiAtomCache || {
